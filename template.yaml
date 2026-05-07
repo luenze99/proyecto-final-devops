@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Plantilla CloudFormation'
+
+Parameters:
+  UltimaAMIId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64'
+
+Resources:
+  #Instancia EC2 t2.micro con perfil LabInstanceProfile
+  InstanciaProyectoFinal:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: t2.micro
+      ImageId: !Ref UltimaAMIId
+      IamInstanceProfile: LabInstanceProfile
+      Tags:
+        - Key: Name
+          Value: EC2-CloudFormation-Luis
+
+  #Bucket S3 con versionado
+  BucketProyectoFinal:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Sub 'bucket-proyecto-final-luis-${AWS::AccountId}'
+      VersioningConfiguration:
+        Status: Enabled
+        
+
+Outputs:
+  InstanceID:
+    Description: 'ID de la instancia EC2'
+    Value: !Ref InstanciaProyectoFinal
+  BucketName:
+    Description: 'Nombre del bucket S3'
+    Value: !Ref BucketProyectoFinal
