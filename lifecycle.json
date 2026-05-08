@@ -1,0 +1,12 @@
+{
+    "Rules": [
+        {
+            "ID": "Eliminar objetos viejos",
+            "Status": "Enabled",
+            "Prefix": "",
+            "Expiration": {
+                "Days": 30
+            }
+        }
+    ]
+}
